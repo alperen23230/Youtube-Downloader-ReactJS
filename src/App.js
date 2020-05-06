@@ -34,6 +34,14 @@ const App = () => {
       download(url)
     }
   }
+  const handleButtonMP3Click = () => {
+    if(/^ *$/.test(videoLink)){
+      message.error('Please enter a video link!');
+    } else {
+      var url = `https://youtube-downloader-nodejs-expr.herokuapp.com/downloadmp3?url=${videoLink}`
+      download(url)
+    }
+  }
 
   return (
     <div className="App">
@@ -45,6 +53,10 @@ const App = () => {
         <br />
         <Button className="downloadButton" type="primary" shape="round" icon={<DownloadOutlined />} size={'large'} onClick={handleButtonClick} >
           Download Video
+        </Button>
+        <br />
+        <Button className="downloadButton" type="primary" shape="round" icon={<DownloadOutlined />} size={'large'} onClick={handleButtonMP3Click} >
+          Download Audio
         </Button>
       </div>
 
