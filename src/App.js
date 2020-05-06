@@ -1,24 +1,53 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import 'antd/dist/antd.css';
+import { Button, Input, message } from 'antd';
+import { DownloadOutlined } from '@ant-design/icons';
 import './App.css';
 
-function App() {
+const App = () => {
+
+  const [videoLink, setVideoLink] = useState("");
+
+  const handleChangeText = (event) => {
+    setVideoLink(event.target.value);
+  }
+
+  const download = (url) => {
+    // fake server request, getting the file url as response
+    setTimeout(() => {
+      const response = {
+        file: url,
+      };
+      // server sent the url to the file!
+      // now, let's download:
+      window.open(response.file);
+      // you could also do:
+      // window.location.href = response.file;
+    }, 100);
+  }
+
+  const handleButtonClick = () => {
+    if(/^ *$/.test(videoLink)){
+      message.error('Please enter a video link!');
+    } else {
+      var url = `https://youtube-downloader-nodejs-expr.herokuapp.com/download?url=${videoLink}`
+      download(url)
+    }
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="inputClass">
+        <label className="label">Youtube Video Downloader</label>
+        <br />
+        <br />
+        <Input size="large" type="text" onChange={handleChangeText} placeholder="Youtube Video Link" className="input"></Input>
+        <br />
+        <Button className="downloadButton" type="primary" shape="round" icon={<DownloadOutlined />} size={'large'} onClick={handleButtonClick} >
+          Download Video
+        </Button>
+      </div>
+
     </div>
   );
 }
